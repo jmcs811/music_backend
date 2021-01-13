@@ -143,3 +143,11 @@ dmypy.json
 .prof
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+#
+
+# ignore music and album art files
+*.jpg
+*.png
+*.mp3
+
+
