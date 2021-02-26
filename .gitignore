@@ -150,4 +150,6 @@ dmypy.json
 *.png
 *.mp3
 
-
+# ignore env.py setting
+app/env.py
+app/env.py

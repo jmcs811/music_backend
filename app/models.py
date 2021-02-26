@@ -14,15 +14,17 @@ class Track(Base):
     filename = Column(String(255))
     duration_ms = Column(Integer)
     track_number = Column(Integer)
+    artist = relationship("Artist", backref="Track")
 
-    albums = relationship("Album", primaryjoin="Track.album_id == Album.album_id")
-    artists = relationship("Artist", primaryjoin="Track.artist_id == Artist.artist_id")
 
 class Artist(Base):
     __tablename__ = SPOTIFY_ARTISTS
 
     artist_id = Column(Integer, primary_key=True, index=True)
     name = Column(String(50))
+
+    track_info = relationship("Track", back_populates="artist")
+
 
 class Album(Base):
     __tablename__ = SPOTIFY_ALBUMS
@@ -33,4 +35,3 @@ class Album(Base):
     release_date = Column(String(50)) # maybe an issue, datetime
     album_art = Column(String(255))
 
-    artists = relationship("Artist", primaryjoin="Artist.artist_id == Album.artist_id")

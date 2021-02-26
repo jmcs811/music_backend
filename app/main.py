@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
-import crud, models
+import crud, models, schemas
 from database import SessionLocal, engine
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -42,6 +42,8 @@ def get_db():
 async def root():
     return {"message":"Hello, world"}
 
+# issues when using the defined response_model
+#@app.get("/tracks", response_model=schemas.Track)
 @app.get("/tracks")
 def tracks(db: Session = Depends(get_db)):
     db_tracks = crud.get_songs(db)
@@ -63,6 +65,7 @@ async def artists(db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="No artists")
     return db_artist
 
+#@app.get("/artist/{artist_id}", response_model=schemas.Artist)
 @app.get("/artist/{artist_id}")
 def get_artist(artist_id: int, db: Session = Depends(get_db)):
     db_artist = crud.get_artist(db, artist_id=artist_id)
@@ -70,6 +73,7 @@ def get_artist(artist_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Artist not found")
     return db_artist
 
+#@app.get("/albums", response_model=schemas.Album)
 @app.get("/albums")
 def albums(db: Session = Depends(get_db)):
     db_albums = crud.get_albums(db)
@@ -77,6 +81,7 @@ def albums(db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="No albums")
     return db_albums
 
+#@app.get("/album/{album_id}/tracks", response_model=schemas.Album)
 @app.get("/album/{album_id}/tracks")
 def get_album_tracks(album_id: int, db: Session = Depends(get_db)):
     db_album = crud.get_album(db, album_id=album_id)

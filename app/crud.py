@@ -7,7 +7,8 @@ def get_songs(db: Session):
     return db.query(models.Track).all()
 
 def get_song(db: Session, song_id: int):
-    return db.query(models.Track).filter(models.Track.song_id == song_id).first()
+    return db.query(models.Track).filter(models.Track.song_id == song_id).all()
+    #return db.query(models.Track, models.Artist).join(models.Artist).filter(models.Track.song_id == song_id)
 
 def get_artists(db: Session):
     print("getting artist")
